@@ -66,9 +66,9 @@ let selectedMonth = dataMonths[parseInt(route.params["month"]) - 1];
 watch(
   () => route.params,
   async () => {
-    let y = parseInt(route.params["year"]);
-    let m = dataMonths[parseInt(route.params["month"]) - 1];
-    router.go(`/${y}/${m}`);
+    selectedYear = parseInt(route.params["year"]);
+    selectedMonth = dataMonths[parseInt(route.params["month"]) - 1];
+    await getData();
   }
 );
 
