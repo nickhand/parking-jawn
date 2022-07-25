@@ -1,9 +1,9 @@
 <template>
   <div
-    class="fixed opacity-95 z-50 h-full w-full bg-[#cfcfcf] flex justify-center items-center"
+    class="absolute left-0 top-0 opacity-95 z-50 h-full w-full bg-[#cfcfcf] flex justify-center items-start"
   >
     <span
-      class="loader border-b-ppa-blue w-20 h-20 border-8 border-solid border-white inline-block rounded-full"
+      class="mt-[200px] loader border-b-ppa-blue w-20 h-20 border-8 border-solid border-white inline-block rounded-full"
     ></span>
   </div>
 </template>

@@ -1,20 +1,30 @@
 <script setup>
+import { ref } from "vue";
 const props = defineProps(["description"]);
+const showTooltip = ref(false);
 </script>
 
 <template>
-  <div class="group">
+  <div
+    class="text-xl group"
+    @mouseover="showTooltip = true"
+    @mouseleave="showTooltip = false"
+  >
     <font-awesome-icon
       class="hover:text-slate-500 hover:bg-white"
       icon="fa-solid fa-circle-question"
     />
 
+    <!-- The tooltip -->
     <div
-      class="z-50 hidden absolute group-hover:flex group-hover:flex-col group-hover:items-start"
+      class="tooltip z-50 absolute flex flex-col items-start"
+      :class="{
+        hidden: !showTooltip,
+      }"
     >
       <font-awesome-icon class="-mb-4 text-3xl" icon="fa-solid fa-caret-up" />
       <div class="text-white p-2 rounded bg-slate-700 max-w-sm">
-        <span class="text-sm">{{ description }}</span>
+        <div class="text-sm">{{ description }}</div>
       </div>
     </div>
   </div>

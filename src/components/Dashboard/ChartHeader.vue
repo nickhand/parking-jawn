@@ -7,10 +7,10 @@ const props = defineProps(["chartId", "title", "showReset", "helpMessage"]);
 
 <template>
   <div
-    class="flex flex-row items-center justify-between px-2 text-lg border-b-2"
+    class="flex flex-row items-start justify-between px-2 text-lg border-b-2"
   >
-    <div class="flex">
-      <span>{{ title }}</span>
+    <div class="flex items-start">
+      <div>{{ title }}</div>
       <InfoTooltip class="ml-2" :description="helpMessage" />
     </div>
     <button

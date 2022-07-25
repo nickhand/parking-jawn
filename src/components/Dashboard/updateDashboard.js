@@ -353,7 +353,6 @@ function updateDashboard(data) {
 
   // Table
   hotspotChart
-    .width(100)
     .height(300)
     .dimension(reversible_group(latlngGroup))
     .size(10)

@@ -137,139 +137,145 @@ await getData();
 </script>
 
 <template>
-  <!-- Loading -->
-  <Loader v-if="isLoading" />
+  <div class="relative">
+    <!-- Loading -->
+    <Loader v-if="isLoading" />
 
-  <!-- Dashboard -->
-  <div class="p-2 bg-[#cfcfcf]" :key="`${selectedYear}-${selectedMonth}`">
-    <div class="grid grid-cols-4 gap-4">
-      <!-- Panel #1: Welcome message -->
-      <WelcomeMessage
-        class="order-1 col-span-4 md:col-span-2 p-4 bg-white rounded-lg"
-      />
-
-      <!-- Top 10 most common tickets -->
-      <div
-        class="md:order-2 order-5 col-span-4 md:col-span-2 row-span-2 md:row-span-3 py-2 bg-white rounded-lg"
-      >
-        <ChartHeader
-          title="Top 10 Most Common Tickets"
-          chartId="hot-spot-table"
-          :showReset="false"
-          :helpMessage="helpMessages['hot-spot-table']"
+    <!-- Dashboard -->
+    <div
+      class="p-2 bg-[#cfcfcf]"
+      :key="`${selectedYear}-${selectedMonth}`"
+      :class="{ 'no-overflow': isLoading }"
+    >
+      <div class="grid grid-cols-4 gap-4">
+        <!-- Panel #1: Welcome message -->
+        <WelcomeMessage
+          class="order-1 col-span-4 md:col-span-2 p-4 bg-white rounded-lg"
         />
-        <div class="w-full relative h-full p-2 pb-14">
-          <table class="table w-full text-left hot-spot-table"></table>
+
+        <!-- Top 10 most common tickets -->
+        <div
+          class="md:order-2 order-5 col-span-4 md:col-span-2 row-span-2 md:row-span-3 py-2 bg-white rounded-lg"
+        >
+          <ChartHeader
+            title="Top 10 Most Common Tickets"
+            chartId="hot-spot-table"
+            :showReset="false"
+            :helpMessage="helpMessages['hot-spot-table']"
+          />
+          <div class="w-full relative p-2 pb-14" id="hot-spot-table-wrapper">
+            <table class="table hot-spot-table"></table>
+          </div>
         </div>
-      </div>
 
-      <!-- Dropdown selections -->
-      <DataSelection
-        class="md:order-3 order-2 col-span-4 md:col-span-1 row-span-2 p-4 bg-white rounded-lg"
-        :dataYears="dataYears"
-        :dataMonths="dataMonths"
-        :defaultMonth="selectedMonth"
-        :defaultYear="selectedYear"
-        @update-month="handleMonthUpdate"
-        @update-year="handleYearUpdate"
-        @submit="handleSubmit"
-      />
+        <!-- Dropdown selections -->
+        <DataSelection
+          class="md:order-3 order-2 col-span-4 md:col-span-1 row-span-2 p-4 bg-white rounded-lg"
+          :dataYears="dataYears"
+          :dataMonths="dataMonths"
+          :defaultMonth="selectedMonth"
+          :defaultYear="selectedYear"
+          @update-month="handleMonthUpdate"
+          @update-year="handleYearUpdate"
+          @submit="handleSubmit"
+        />
 
-      <!-- Number of tickets -->
-      <div
-        class="md:order-4 order-3 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
-      >
-        <div class="px-2 text-lg border-b-2">Number of Tickets</div>
-        <div class="flex flex-col items-start justify-center">
-          <div id="number-records-nd" class="p-2 text-3xl md:text-5xl"></div>
+        <!-- Number of tickets -->
+        <div
+          class="md:order-4 order-3 col-span-2 md:col-span-1 py-2 bg-white rounded-lg"
+        >
+          <div class="px-2 text-lg border-b-2">Number of Tickets</div>
+          <div class="flex flex-col items-start justify-center">
+            <div id="number-records-nd" class="p-2 text-3xl md:text-5xl"></div>
+          </div>
         </div>
-      </div>
 
-      <!-- Total revenue -->
-      <div
-        class="md:order-5 order-4 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
-      >
-        <div class="px-2 text-lg border-b-2">Total Revenue</div>
-        <div class="flex flex-col items-start justify-center">
-          <div id="number-revenue-nd" class="p-2 text-3xl md:text-5xl"></div>
+        <!-- Total revenue -->
+        <div
+          class="md:order-5 order-4 col-span-2 md:col-span-1 py-2 bg-white rounded-lg"
+        >
+          <div class="px-2 text-lg border-b-2">Total Revenue</div>
+          <div class="flex flex-col items-start justify-center">
+            <div id="number-revenue-nd" class="p-2 text-3xl md:text-5xl"></div>
+          </div>
         </div>
-      </div>
 
-      <!-- Time series -->
-      <div class="order-6 col-span-4 py-2 bg-white rounded-lg">
-        <ChartHeader
-          title="Tickets per Hour"
-          chartId="time-chart"
-          :showReset="true"
-          :helpMessage="helpMessages['time-chart']"
-        />
-        <div class="pl-2 pt-1 pb-1 text-sm italic">
-          Showing data for {{ minTime }} to {{ maxTime }}
+        <!-- Time series -->
+        <div class="order-6 col-span-4 py-2 bg-white rounded-lg">
+          <ChartHeader
+            title="Tickets per Hour"
+            chartId="time-chart"
+            :showReset="true"
+            :helpMessage="helpMessages['time-chart']"
+          />
+          <div class="pl-2 pt-1 pb-1 text-sm italic">
+            Showing data for {{ minTime }} to {{ maxTime }}
+          </div>
+          <div id="time-chart" class="p-2"></div>
         </div>
-        <div id="time-chart" class="p-2"></div>
-      </div>
 
-      <!-- Tickets by ZIP code -->
-      <div
-        class="order-7 h-full row-span-2 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
-      >
-        <ChartHeader
-          title="Tickets by ZIP Code"
-          chartId="zipcode-row-chart"
-          :showReset="true"
-          :helpMessage="helpMessages['zipcode-row-chart']"
-        />
-        <div id="zipcode-row-chart" class="p-2"></div>
-      </div>
+        <!-- Tickets by ZIP code -->
+        <div
+          class="order-7 h-full row-span-2 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
+        >
+          <ChartHeader
+            title="Tickets by ZIP Code"
+            chartId="zipcode-row-chart"
+            :showReset="true"
+            :helpMessage="helpMessages['zipcode-row-chart']"
+          />
+          <div id="zipcode-row-chart" class="p-2"></div>
+        </div>
 
-      <!-- Weekday heatmap -->
-      <div
-        class="order-8 h-full row-span-2 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
-      >
-        <ChartHeader
-          title="Hourly Ticket by Weekday"
-          chartId="day-hour-chart"
-          :showReset="true"
-          :helpMessage="helpMessages['day-hour-chart']"
-        />
-        <div id="day-hour-chart" class="mx-5"></div>
-      </div>
+        <!-- Weekday heatmap -->
+        <div
+          class="order-8 h-full row-span-2 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
+        >
+          <ChartHeader
+            title="Hourly Ticket by Weekday"
+            chartId="day-hour-chart"
+            :showReset="true"
+            :helpMessage="helpMessages['day-hour-chart']"
+          />
+          <div id="day-hour-chart" class="mx-5"></div>
+        </div>
 
-      <!-- Map -->
-      <div class="order-9 col-span-4 md:col-span-2 py-2 bg-white rounded-lg">
-        <ChartHeader
-          title="Density of Tickets across Philadelphia"
-          chartId="zipcode-row-chart"
-          :showReset="true"
-          :helpMessage="helpMessages['map']"
-        />
-        <div id="map"></div>
-      </div>
+        <!-- Map -->
+        <div class="order-9 col-span-4 md:col-span-2 py-2 bg-white rounded-lg">
+          <ChartHeader
+            title="Ticket Density"
+            chartId="zipcode-row-chart"
+            :showReset="true"
+            :helpMessage="helpMessages['map']"
+          />
+          <div id="map"></div>
+        </div>
 
-      <!-- Types of tickets -->
-      <div
-        class="order-10 col-span-4 md:col-span-1 h-full py-2 bg-white rounded-lg"
-      >
-        <ChartHeader
-          title="Types of Tickets"
-          chartId="ticket-type-row-chart"
-          :showReset="true"
-          :helpMessage="helpMessages['ticket-type-row-chart']"
-        />
-        <div id="ticket-type-row-chart" class="h-full p-2"></div>
-      </div>
+        <!-- Types of tickets -->
+        <div
+          class="order-10 col-span-4 md:col-span-1 h-full py-2 bg-white rounded-lg"
+        >
+          <ChartHeader
+            title="Types of Tickets"
+            chartId="ticket-type-row-chart"
+            :showReset="true"
+            :helpMessage="helpMessages['ticket-type-row-chart']"
+          />
+          <div id="ticket-type-row-chart" class="h-full p-2"></div>
+        </div>
 
-      <!-- Issuing agency -->
-      <div
-        class="order-11 col-span-4 md:col-span-1 h-full py-2 bg-white rounded-lg"
-      >
-        <ChartHeader
-          title="Issuing Agency"
-          chartId="agency-row-chart"
-          :showReset="true"
-          :helpMessage="helpMessages['agency-row-chart']"
-        />
-        <div id="agency-row-chart" class="p-2"></div>
+        <!-- Issuing agency -->
+        <div
+          class="order-11 col-span-4 md:col-span-1 h-full py-2 bg-white rounded-lg"
+        >
+          <ChartHeader
+            title="Issuing Agency"
+            chartId="agency-row-chart"
+            :showReset="true"
+            :helpMessage="helpMessages['agency-row-chart']"
+          />
+          <div id="agency-row-chart" class="p-2"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -340,6 +346,21 @@ await getData();
 }
 
 #time-chart {
+  overflow-x: scroll;
+}
+
+.hot-spot-table {
+  min-width: 500px !important;
+}
+.hot-spot-table th {
+  text-align: left;
+}
+
+.hot-spot-table tr > td:last-of-type {
+  width: 20% !important;
+}
+
+#hot-spot-table-wrapper {
   overflow-x: scroll;
 }
 </style>
