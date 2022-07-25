@@ -8,9 +8,9 @@ import Loader from "./components/Loader.vue";
   <Navbar />
   <Suspense>
     <router-view />
+    <Footer />
     <template #fallback><Loader /></template>
   </Suspense>
-  <Footer />
 </template>
 
 <style>
