@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-default {
+  @apply bg-transparent 
+          text-base 
+          uppercase 
+          rounded-full
+          border-[2px] 
+          border-solid 
+          border-gray-300 
+          px-4
+          py-1.5
+          tracking-[2px] 
+          font-semibold 
+          transition-all 
+          ease-in-out 
+          delay-100 
+          hover:bg-gray-500 
+          hover:border-gray-500
+          hover:text-white;
+}
+
+.social-icon-btn {
+  @apply rounded-full inline-block w-[40px] h-[40px] border-[1px] border-solid border-[#262626] hover:before:bg-white hover:rotate-[360deg] transition duration-700;
+}
