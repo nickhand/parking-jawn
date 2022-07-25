@@ -17,7 +17,7 @@ function resetAllFilters() {
       >
         <!-- Logo -->
         <div class="flex flex-col md:flex-row ml-2">
-          <span class="font-['Montserrat'] text-[4.25rem]">Parking</span>
+          <span class="font-['Montserrat Light'] text-[4.25rem]">Parking</span>
           <span class="ml-0 md:ml-4 font-['Oswald']">Jawn</span>
         </div>
 
@@ -45,4 +45,5 @@ function resetAllFilters() {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Oswald");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat");
 </style>
