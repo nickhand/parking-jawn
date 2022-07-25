@@ -1,6 +1,5 @@
 // Crossfilter and jquery
 import crossfilter from "crossfilter2";
-import $ from "jquery";
 import { ref, reactive } from "vue";
 
 // dc.js
@@ -46,16 +45,6 @@ function resetChart(id) {
       charts[i].filterAll();
       dc.redrawAll();
       return;
-    }
-  }
-}
-
-function showChartReset(id) {
-  let charts = dc.chartRegistry.list();
-  for (let i = 0; i < charts.length; i++) {
-    if (charts[i].anchorName() == id) {
-      if (charts[i].hasFilter()) return true;
-      else return false;
     }
   }
 }
