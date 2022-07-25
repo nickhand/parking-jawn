@@ -158,8 +158,8 @@ await getData();
           :showReset="false"
           :helpMessage="helpMessages['hot-spot-table']"
         />
-        <div class="w-full h-full p-2 pb-14">
-          <table class="table w-full h-full text-left hot-spot-table"></table>
+        <div class="w-full relative h-full p-2 pb-14">
+          <table class="table w-full text-left hot-spot-table"></table>
         </div>
       </div>
 
@@ -333,5 +333,6 @@ await getData();
 
 .hot-spot-table tr {
   border-bottom: 1px solid rgb(229, 231, 235);
+  height: 40px !important;
 }
 </style>
