@@ -4,7 +4,7 @@ import WelcomeMessage from "./WelcomeMessage.vue";
 import DataSelection from "./DataSelection.vue";
 import Loader from "../Loader.vue";
 import * as d3 from "d3";
-import { updateDashboard } from "./updateDashboard.js";
+import { updateDashboard, minTime, maxTime } from "./updateDashboard.js";
 import "leaflet/dist/leaflet.css";
 import ChartHeader from "./ChartHeader.vue";
 import { useRouter, useRoute } from "vue-router";
@@ -165,7 +165,7 @@ await getData();
 
       <!-- Dropdown selections -->
       <DataSelection
-        class="md:order-3 order-2 col-span-2 md:col-span-1 row-span-2 p-4 bg-white rounded-lg"
+        class="md:order-3 order-2 col-span-4 md:col-span-1 row-span-2 p-4 bg-white rounded-lg"
         :dataYears="dataYears"
         :dataMonths="dataMonths"
         :defaultMonth="selectedMonth"
@@ -177,21 +177,21 @@ await getData();
 
       <!-- Number of tickets -->
       <div
-        class="md:order-4 order-3 col-span-2 md:col-span-1 py-2 bg-white rounded-lg"
+        class="md:order-4 order-3 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
       >
         <div class="px-2 text-lg border-b-2">Number of Tickets</div>
         <div class="flex flex-col items-start justify-center">
-          <div id="number-records-nd" class="p-2 text-[3vw]"></div>
+          <div id="number-records-nd" class="p-2 text-3xl md:text-5xl"></div>
         </div>
       </div>
 
       <!-- Total revenue -->
       <div
-        class="md:order-5 order-4 col-span-2 md:col-span-1 py-2 bg-white rounded-lg"
+        class="md:order-5 order-4 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
       >
         <div class="px-2 text-lg border-b-2">Total Revenue</div>
         <div class="flex flex-col items-start justify-center">
-          <div id="number-revenue-nd" class="p-2 text-[3vw]"></div>
+          <div id="number-revenue-nd" class="p-2 text-3xl md:text-5xl"></div>
         </div>
       </div>
 
@@ -203,12 +203,15 @@ await getData();
           :showReset="true"
           :helpMessage="helpMessages['time-chart']"
         />
+        <div class="pl-2 pt-1 pb-1 text-sm italic">
+          Showing data for {{ minTime }} to {{ maxTime }}
+        </div>
         <div id="time-chart" class="p-2"></div>
       </div>
 
       <!-- Tickets by ZIP code -->
       <div
-        class="order-7 h-full row-span-2 col-span-2 md:col-span-1 py-2 bg-white rounded-lg"
+        class="order-7 h-full row-span-2 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
       >
         <ChartHeader
           title="Tickets by ZIP Code"
@@ -221,7 +224,7 @@ await getData();
 
       <!-- Weekday heatmap -->
       <div
-        class="order-8 h-full row-span-2 col-span-2 md:col-span-1 py-2 bg-white rounded-lg"
+        class="order-8 h-full row-span-2 col-span-4 md:col-span-1 py-2 bg-white rounded-lg"
       >
         <ChartHeader
           title="Hourly Ticket by Weekday"
@@ -245,7 +248,7 @@ await getData();
 
       <!-- Types of tickets -->
       <div
-        class="order-10 col-span-2 md:col-span-1 h-full py-2 bg-white rounded-lg"
+        class="order-10 col-span-4 md:col-span-1 h-full py-2 bg-white rounded-lg"
       >
         <ChartHeader
           title="Types of Tickets"
@@ -258,7 +261,7 @@ await getData();
 
       <!-- Issuing agency -->
       <div
-        class="order-11 col-span-2 md:col-span-1 h-full py-2 bg-white rounded-lg"
+        class="order-11 col-span-4 md:col-span-1 h-full py-2 bg-white rounded-lg"
       >
         <ChartHeader
           title="Issuing Agency"
@@ -334,5 +337,9 @@ await getData();
 .hot-spot-table tr {
   border-bottom: 1px solid rgb(229, 231, 235);
   height: 40px !important;
+}
+
+#time-chart {
+  overflow-x: scroll;
 }
 </style>

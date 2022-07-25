@@ -21,6 +21,14 @@ dc.config.defaultColors(d3.schemeCategory10);
 // Whether to show reset all button
 const showResetAllButton = ref(false);
 
+const dateFormat = d3.timeFormat("%b %-d");
+
+// Time reset
+let minTime = ref(null);
+let maxTime = ref(null);
+let defaultMinDate = null;
+let defaultMaxDate = null;
+
 // The map objects
 let map = null;
 let info = null;
@@ -41,9 +49,17 @@ function getShowResetButton() {
 function resetChart(id) {
   let charts = dc.chartRegistry.list();
   for (let i = 0; i < charts.length; i++) {
-    if (charts[i].anchorName() == id) {
-      charts[i].filterAll();
+    let chart = charts[i];
+    if (chart.anchorName() == id) {
+      // Reset
+      chart.filterAll();
       dc.redrawAll();
+
+      if (id == "time-chart") {
+        minTime.value = dateFormat(defaultMinDate);
+        maxTime.value = dateFormat(defaultMaxDate);
+      }
+
       return;
     }
   }
@@ -223,6 +239,13 @@ function updateDashboard(data) {
   let minDate = dateDim.bottom(1)[0]["timestamp"];
   let maxDate = dateDim.top(1)[0]["timestamp"];
 
+  defaultMinDate = minDate;
+  defaultMaxDate = maxDate;
+
+  // Set default time filters
+  minTime.value = dateFormat(minDate);
+  maxTime.value = dateFormat(maxDate);
+
   // Initialize charts
   let numberTicketsND = dc.numberDisplay("#number-records-nd");
   let numberRevenueND = dc.numberDisplay("#number-revenue-nd");
@@ -291,17 +314,22 @@ function updateDashboard(data) {
     };
   }
 
+  let timeResizing = true;
+  if (window.matchMedia("screen and (max-width: 768px)").matches) {
+    timeResizing = false;
+  }
+
   // Bar chart to show number of tickets per hour
   timeChart
     .width(1250)
-    .height(140)
+    .height(250)
     .margins({ top: 10, right: 10, bottom: 20, left: 30 })
     .dimension(dateDim)
     .group(numRecordsByDate)
     .transitionDuration(500)
     .x(d3.scaleTime().domain([minDate, maxDate]))
     .elasticY(true)
-    .useViewBoxResizing(true)
+    .useViewBoxResizing(timeResizing)
     .on("filtered", function (chart) {
       // Update reset flags
       showResetAllButton.value = getShowResetButton();
@@ -309,6 +337,16 @@ function updateDashboard(data) {
 
       // Update hex leayer
       addHexLayer(allDim.top(Infinity));
+
+      // Update min/max times
+      let filters = chart.filters();
+      if (filters) {
+        let range = filters[0];
+        if (range) {
+          minTime.value = dateFormat(range[0]);
+          maxTime.value = dateFormat(range[1]);
+        }
+      }
     })
     .yAxis()
     .ticks(4);
@@ -629,4 +667,11 @@ function updateDashboard(data) {
   addXAxis(agencyChart, "Number of Tickets", "0.8rem", 40);
 }
 
-export { updateDashboard, showResetAllButton, resetChart, resetFlags };
+export {
+  updateDashboard,
+  showResetAllButton,
+  resetChart,
+  resetFlags,
+  minTime,
+  maxTime,
+};

@@ -9,7 +9,10 @@ function resetAllFilters() {
 </script>
 
 <template>
-  <div class="sticky top-0 z-50 bg-ppa-blue h-18" role=" navigation">
+  <div
+    class="relative md:sticky top-0 z-50 bg-ppa-blue h-18"
+    role=" navigation"
+  >
     <div class="flex flex-col md:flex-row md:justify-between md:items-start">
       <!-- Logo and name-->
       <div
