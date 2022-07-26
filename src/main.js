@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createWebHistory, createRouter } from "vue-router";
+import vClickOutside from "click-outside-vue3";
 import "./index.css";
 import Dashboard from "./components/Dashboard/index.vue";
 
@@ -48,5 +49,6 @@ const router = createRouter({
 
 createApp(App)
   .use(router)
+  .use(vClickOutside)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
