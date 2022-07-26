@@ -85,9 +85,9 @@ const helpMessages = reactive({
     "This chart plots the number of tickets per hour as a function of the date. " +
     "Individual date ranges can be selected via a sliding window — click on the chart and drag the filter over the desired date range.",
   "zipcode-row-chart":
-    "This chart gives the number of tickets as a function of zip code. " +
-    "Individual zip codes can be selected by clicking on specific bars of the chart. " +
-    "When hovering over a bar, the corresponding zip code will be highlighted on the map.",
+    "This chart gives the number of tickets as a function of ZIP code. " +
+    "Individual ZIP codes can be selected by clicking on specific bars of the chart. " +
+    "When hovering over a bar, the corresponding ZIP code will be highlighted on the map.",
   "day-hour-chart":
     "This chart shows the number of tickets as a function of hour (y axis) and day of week (x axis). " +
     "Filter by time and day of week by clicking on the desired square. " +

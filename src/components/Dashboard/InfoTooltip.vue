@@ -1,44 +1,38 @@
 <script setup>
 import { ref } from "vue";
 const props = defineProps(["description"]);
-const showTooltip = ref(false);
+const showTooltipOnMobile = ref(false);
+
+function showOnMobile() {
+  if (!window.matchMedia("@media (hover: hover) and (pointer: fine)")) {
+    showTooltipOnMobile.value = !showTooltipOnMobile.value;
+  }
+}
 </script>
 
 <template>
-  <div
-    class="text-xl group"
-    @mouseover="showTooltip = true"
-    @mouseout="showTooltip = false"
-  >
+  <div class="text-xl group">
     <font-awesome-icon
       class="hover:text-slate-500 hover:bg-white"
       icon="fa-solid fa-circle-question"
+      @click="showOnMobile"
     />
 
     <!-- The tooltip -->
     <div
-      class="tooltip z-50 absolute flex flex-col items-center -ml-[115px]"
+      class="tooltip z-50 ml-2 absolute hidden group-hover:flex group-hover:flex-col group-hover:items-center -translate-x-1/2"
       :class="{
-        hidden: !showTooltip,
+        flex: showTooltipOnMobile,
+        'flex-col': showTooltipOnMobile,
+        'items-center': showTooltipOnMobile,
       }"
     >
       <font-awesome-icon class="-mb-4 text-3xl" icon="fa-solid fa-caret-up" />
-      <div class="text-white p-2 rounded bg-slate-700 w-[250px]">
+      <div class="text-white p-2 rounded bg-slate-700 max-w-[250px] w-fit">
         <div class="text-sm">{{ description }}</div>
       </div>
     </div>
   </div>
 </template>
 
-<style>
-.tooltip .tooltip-text {
-  visibility: hidden;
-  text-align: center;
-  padding: 2px 6px;
-  position: absolute;
-  z-index: 100;
-}
-.tooltip:hover .tooltip-text {
-  visibility: visible;
-}
-</style>
+<style></style>
