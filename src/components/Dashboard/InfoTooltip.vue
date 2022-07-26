@@ -8,8 +8,7 @@ const showTooltip = ref(false);
   <div
     class="text-xl group"
     @mouseover="showTooltip = true"
-    @mouseleave="showTooltip = false"
-    @click="showTooltip = !showTooltip"
+    @mouseout="showTooltip = false"
   >
     <font-awesome-icon
       class="hover:text-slate-500 hover:bg-white"
