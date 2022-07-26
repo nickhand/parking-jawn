@@ -9,6 +9,7 @@ const showTooltip = ref(false);
     class="text-xl group"
     @mouseover="showTooltip = true"
     @mouseleave="showTooltip = false"
+    @click="showTooltip = !showTooltip"
   >
     <font-awesome-icon
       class="hover:text-slate-500 hover:bg-white"
@@ -17,13 +18,13 @@ const showTooltip = ref(false);
 
     <!-- The tooltip -->
     <div
-      class="tooltip z-50 absolute flex flex-col items-start"
+      class="tooltip z-50 absolute flex flex-col items-center -ml-[115px]"
       :class="{
         hidden: !showTooltip,
       }"
     >
       <font-awesome-icon class="-mb-4 text-3xl" icon="fa-solid fa-caret-up" />
-      <div class="text-white p-2 rounded bg-slate-700 max-w-sm">
+      <div class="text-white p-2 rounded bg-slate-700 w-[250px]">
         <div class="text-sm">{{ description }}</div>
       </div>
     </div>
