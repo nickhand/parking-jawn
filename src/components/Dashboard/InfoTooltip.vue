@@ -6,7 +6,10 @@ const showTooltip = ref(false);
 
 function handleClick() {
   // On mobile only
-  if (!window.matchMedia("hover: hover")) {
+  let notMobile = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+  ).matches;
+  if (!notMobile) {
     showTooltip.value = !showTooltip.value;
   }
 }
