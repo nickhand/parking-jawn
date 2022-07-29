@@ -34,7 +34,7 @@ function closeTooltip() {
       :class="{ flex: showTooltip, hidden: !showTooltip }"
     >
       <font-awesome-icon class="-mb-4 text-3xl" icon="fa-solid fa-caret-up" />
-      <div class="text-white p-2 rounded bg-slate-700 max-w-[250px] w-fit">
+      <div class="text-white p-2 rounded bg-slate-700 max-w-[250px]">
         <div class="text-sm">{{ description }}</div>
       </div>
     </div>
