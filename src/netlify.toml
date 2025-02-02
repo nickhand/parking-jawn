@@ -1,0 +1,11 @@
+[[redirects]]
+from = "https://parkingjawn.com/*"
+to = "https://parkingjawn.netlify.app/*"
+status = 200
+force = true
+headers = { X-From = "Netlify" }
+
+[[headers]]
+for = "/*"
+[headers.values]
+Access-Control-Allow-Origin = "*"
