@@ -2,10 +2,21 @@
   "name": "parking-jawn",
   "private": true,
   "version": "0.0.0",
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": "^22.19.0 || >=24.11.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.mjs",
+    "build:cloudflare:staging": "vite build && node scripts/prepare-cloudflare-output.mjs && node scripts/check-cloudflare-output.mjs staging",
+    "build:cloudflare:production": "vite build && node scripts/prepare-cloudflare-output.mjs && node scripts/check-cloudflare-output.mjs production",
+    "dry-run:cloudflare:staging": "yarn build:cloudflare:staging && npx --yes wrangler@4.120.1 deploy --dry-run --env staging",
+    "dry-run:cloudflare:production": "yarn build:cloudflare:production && npx --yes wrangler@4.120.1 deploy --dry-run --env production",
+    "deploy:cloudflare:staging": "yarn build:cloudflare:staging && npx --yes wrangler@4.120.1 deploy --env staging",
+    "deploy:cloudflare:production": "yarn build:cloudflare:production && npx --yes wrangler@4.120.1 deploy --env production"
   },
   "dependencies": {
     "@asymmetrik/leaflet-d3": "4.4.0",
@@ -16,14 +27,12 @@
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@headlessui/vue": "^1.6.7",
     "@heroicons/vue": "^1.0.6",
-    "@mapbox/leaflet-pip": "^1.1.0",
     "click-outside-vue3": "^4.0.1",
     "crossfilter2": "^1.5.4",
     "css-loader": "^6.7.1",
     "d3": "6.7.0",
     "d3-hexbin": "^0.2.2",
     "dc": "^4.2.7",
-    "geojson-utils": "^1.1.0",
     "jquery": "^3.6.0",
     "leaflet": "^1.8.0",
     "vue": "^3.2.25",

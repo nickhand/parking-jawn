@@ -11,6 +11,7 @@ import "dc/dist/style/dc.min.css";
 // Leaflet and related
 import L from "leaflet";
 import "@asymmetrik/leaflet-d3/dist/leaflet-d3.min.js";
+import { pointInLayer } from "./pointInLayer.mjs";
 
 // ZIP codes
 import zipCodes from "./zipCodes.js";
@@ -586,8 +587,7 @@ function updateDashboard(data) {
       layer: geojson,
     });
 
-    // Use Mapbox Leaflet PIP (point in polygon) library.
-    let layers = leafletPip.pointInLayer(latlng, geojson);
+    let layers = pointInLayer(latlng, geojson, true);
     layers.forEach(function (layer) {
       geojson.fireEvent("mouseover", {
         latlng: latlng,
@@ -601,7 +601,7 @@ function updateDashboard(data) {
 
   // Add map listener to filter based on clicked zip code on map
   map.on("click", function (event) {
-    let clickedLayers = leafletPip.pointInLayer(event.latlng, geojson);
+    let clickedLayers = pointInLayer(event.latlng, geojson, true);
     clickedLayers.map((layer, i) => {
       let code = +layer.feature.properties.CODE;
       let filters = zipcodeChart.filters();
