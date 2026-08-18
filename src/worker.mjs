@@ -30,7 +30,8 @@ function addResponseHeaders(response, requestUrl, indexable) {
 }
 
 function isFileRequest(requestUrl) {
-  return /\/[^/]+\.[a-z0-9]+$/i.test(new URL(requestUrl).pathname)
+  const pathname = new URL(requestUrl).pathname
+  return pathname.startsWith('/assets/') || /\/[^/]+\.[a-z0-9]+$/i.test(pathname)
 }
 
 export function resolveParkingRoute(requestUrl) {

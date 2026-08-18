@@ -56,7 +56,7 @@ test('production HTML receives security headers and revalidation', async () => {
   assert.equal(response.headers.get('Cache-Control'), 'public, max-age=0, must-revalidate')
 })
 
-test('missing files return 404 instead of the SPA document', async () => {
+test('missing files and asset paths return 404 instead of the SPA document', async () => {
   const assets = {
     fetch: async () => new Response('<main>SPA fallback</main>', {
       headers: { 'Content-Type': 'text/html' },
@@ -69,4 +69,10 @@ test('missing files return 404 instead of the SPA document', async () => {
 
   assert.equal(response.status, 404)
   assert.equal(response.headers.get('Cache-Control'), null)
+
+  const extensionlessAsset = await worker.fetch(
+    new Request('https://www.parkingjawn.com/assets/not-real'),
+    { ASSETS: assets, INDEXABLE: 'true' },
+  )
+  assert.equal(extensionlessAsset.status, 404)
 })
